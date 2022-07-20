@@ -20,9 +20,8 @@
  *    console.log(r.height);      // => 20
  *    console.log(r.getArea());   // => 200
  */
-function Rectangle(/* width, height */) {
-  throw new Error('Not implemented');
-}
+function Rectangle(width, height) { Object.assign(this, { width, height }); }
+Rectangle.prototype.getArea = function f() { return this.width * this.height; };
 
 
 /**
@@ -35,9 +34,7 @@ function Rectangle(/* width, height */) {
  *    [1,2,3]   =>  '[1,2,3]'
  *    { width: 10, height : 20 } => '{"height":10,"width":20}'
  */
-function getJSON(/* obj */) {
-  throw new Error('Not implemented');
-}
+const getJSON = (obj) => JSON.stringify(obj);
 
 
 /**
@@ -51,9 +48,7 @@ function getJSON(/* obj */) {
  *    const r = fromJSON(Circle.prototype, '{"radius":10}');
  *
  */
-function fromJSON(/* proto, json */) {
-  throw new Error('Not implemented');
-}
+const fromJSON = (proto, json) => Object.setPrototypeOf(JSON.parse(json), proto);
 
 
 /**
@@ -110,33 +105,126 @@ function fromJSON(/* proto, json */) {
  *  For more examples see unit tests.
  */
 
+function SelectorBuilder() {
+  this[SelectorBuilder.element] = null;
+  this[SelectorBuilder.id] = null;
+  this[SelectorBuilder.classList] = [];
+  this[SelectorBuilder.attrList] = [];
+  this[SelectorBuilder.pseudoClassesList] = [];
+  this[SelectorBuilder.pseudoElement] = null;
+}
+
+Object.assign(SelectorBuilder, {
+  element: 'el', id: 'idVal', classList: 'classes', attrList: 'attrs', pseudoClassesList: 'psClasses', pseudoElement: 'psEl',
+});
+
+Object.assign(SelectorBuilder, {
+  elementsOrder: [
+    SelectorBuilder.element, SelectorBuilder.id, SelectorBuilder.classList,
+    SelectorBuilder.attrList, SelectorBuilder.pseudoClassesList, SelectorBuilder.pseudoElement,
+  ],
+});
+
+SelectorBuilder.prototype.element = function f(value) {
+  return this.setProperty(SelectorBuilder.element, value);
+};
+
+SelectorBuilder.prototype.id = function f(value) {
+  return this.setProperty(SelectorBuilder.id, value);
+};
+
+SelectorBuilder.prototype.class = function f(value) {
+  return this.addToList(SelectorBuilder.classList, value);
+};
+
+SelectorBuilder.prototype.attr = function f(value) {
+  return this.addToList(SelectorBuilder.attrList, value);
+};
+
+SelectorBuilder.prototype.pseudoClass = function f(value) {
+  return this.addToList(SelectorBuilder.pseudoClassesList, value);
+};
+
+SelectorBuilder.prototype.pseudoElement = function f(value) {
+  return this.setProperty(SelectorBuilder.pseudoElement, value);
+};
+
+SelectorBuilder.prototype.setProperty = function f(property, value) {
+  if (this[property]) SelectorBuilder.elementIsAlreadySet();
+  this.checkOrder(property);
+  this[property] = value;
+  return this;
+};
+
+SelectorBuilder.prototype.addToList = function f(property, value) {
+  this.checkOrder(property);
+  this[property].push(value);
+  return this;
+};
+
+SelectorBuilder.prototype.stringify = function f() {
+  const res = [
+    this[SelectorBuilder.element] || '',
+    this[SelectorBuilder.id] ? `#${this[SelectorBuilder.id]}` : '',
+    this[SelectorBuilder.classList].map((v) => `.${v}`).join(''),
+    this[SelectorBuilder.attrList].map((v) => `[${v}]`).join(''),
+    this[SelectorBuilder.pseudoClassesList].map((v) => `:${v}`).join(''),
+    this[SelectorBuilder.pseudoElement] ? `::${this[SelectorBuilder.pseudoElement]}` : '',
+  ].join('');
+  return res;
+};
+
+SelectorBuilder.prototype.checkOrder = function f(property) {
+  const idx = SelectorBuilder.elementsOrder.indexOf(property);
+  const checkArr = SelectorBuilder.elementsOrder.slice(idx + 1);
+  if (checkArr.some((p) => (Array.isArray(this[p]) ? this[p].length : this[p]))) {
+    SelectorBuilder.wrongOrder();
+  }
+};
+
+SelectorBuilder.elementIsAlreadySet = function f() {
+  throw new Error('Element, id and pseudo-element should not occur more then one time inside the selector');
+};
+
+SelectorBuilder.wrongOrder = function f() {
+  throw new Error('Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element');
+};
+
+function SelectorBuilderCombined(selector1, combinator, selector2) {
+  Object.assign(this, { selectors: [selector1, selector2], combinator });
+}
+
+SelectorBuilderCombined.prototype.stringify = function f() {
+  return this.selectors.map((v) => v.stringify()).join(` ${this.combinator} `);
+};
+
 const cssSelectorBuilder = {
-  element(/* value */) {
-    throw new Error('Not implemented');
+  element(value) {
+    return new SelectorBuilder().element(value);
   },
 
-  id(/* value */) {
-    throw new Error('Not implemented');
+  id(value) {
+    return new SelectorBuilder().id(value);
   },
 
-  class(/* value */) {
-    throw new Error('Not implemented');
+  class(value) {
+    return new SelectorBuilder().class(value);
   },
 
-  attr(/* value */) {
-    throw new Error('Not implemented');
+  attr(value) {
+    return new SelectorBuilder().attr(value);
   },
 
-  pseudoClass(/* value */) {
-    throw new Error('Not implemented');
+  pseudoClass(value) {
+    return new SelectorBuilder().pseudoClass(value);
   },
 
-  pseudoElement(/* value */) {
-    throw new Error('Not implemented');
+  pseudoElement(value) {
+    return new SelectorBuilder().pseudoElement(value);
   },
 
-  combine(/* selector1, combinator, selector2 */) {
-    throw new Error('Not implemented');
+  combine(selector1, combinator, selector2) {
+    return new SelectorBuilderCombined(selector1, combinator, selector2);
   },
 };
 
