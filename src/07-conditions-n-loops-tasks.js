@@ -27,9 +27,7 @@
  *  21 => 'Fizz'
  *
  */
-function getFizzBuzz(/* num */) {
-  throw new Error('Not implemented');
-}
+const getFizzBuzz = (num) => `${num % 3 ? '' : 'Fizz'}${num % 5 ? '' : 'Buzz'}` || num;
 
 
 /**
@@ -43,9 +41,8 @@ function getFizzBuzz(/* num */) {
  *   5  => 120
  *   10 => 3628800
  */
-function getFactorial(/* n */) {
-  throw new Error('Not implemented');
-}
+// const getFactorial = (n) => Array(n).fill().map((_, i) => i + 1).reduce((p, c) => p * c, 1);
+const getFactorial = (n) => (n ? n * getFactorial(n - 1) : 1);
 
 
 /**
@@ -60,9 +57,7 @@ function getFactorial(/* n */) {
  *   5,10  =>  45 ( = 5+6+7+8+9+10 )
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
-function getSumBetweenNumbers(/* n1, n2 */) {
-  throw new Error('Not implemented');
-}
+const getSumBetweenNumbers = (n1, n2) => ((n2 + n1) * (n2 - n1 + 1)) / 2;
 
 
 /**
@@ -80,9 +75,7 @@ function getSumBetweenNumbers(/* n1, n2 */) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
-}
+const isTriangle = (a, b, c) => a + b > c && c + a > b && b + c > a;
 
 
 /**
@@ -117,9 +110,14 @@ function isTriangle(/* a, b, c */) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
-}
+const doRectanglesOverlap = (rect1, rect2) => [rect1, rect2].map((v) => ({
+  l: v.left, r: v.left + v.width, t: v.top, b: v.top + v.height,
+})).reduce((a, b) => a.t < b.b && a.b > b.t && a.l < b.r && a.r > b.l);
+/* The normal solution is faster and mode understandable but not fun to solve
+const doRectanglesOverlap = (rect1, rect2) => (rect1.top < (rect2.top + rect2.height))
+                                              && ((rect1.top + rect1.height) > rect2.top)
+                                              && (rect1.left < (rect2.left + rect2.width))
+                                              && ((rect1.left + rect1.width) > rect2.left); */
 
 
 /**
@@ -148,9 +146,8 @@ function doRectanglesOverlap(/* rect1, rect2 */) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  throw new Error('Not implemented');
-}
+const isInsideCircle = (circle, point) => circle.radius ** 2
+  > (point.x - circle.center.x) ** 2 + (point.y - circle.center.y) ** 2;
 
 
 /**
@@ -164,9 +161,7 @@ function isInsideCircle(/* circle, point */) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
-}
+const findFirstSingleChar = (str) => [...str].find((v, _, a) => a.indexOf(v) === a.lastIndexOf(v));
 
 
 /**
@@ -191,9 +186,8 @@ function findFirstSingleChar(/* str */) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
-}
+const getIntervalString = (a, b, isStartIncluded, isEndIncluded) => [
+  isStartIncluded ? '[' : '(', [a, b].sort((x, y) => x - y).join(', '), isEndIncluded ? ']' : ')'].join('');
 
 
 /**
@@ -208,9 +202,7 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
-}
+const reverseString = (str) => [...str].reverse().join('');
 
 
 /**
@@ -225,9 +217,7 @@ function reverseString(/* str */) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
-}
+const reverseInteger = (num) => +[...`${num}`].reverse().join('');
 
 
 /**
@@ -250,9 +240,9 @@ function reverseInteger(/* num */) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
-}
+const isCreditCardNumberEven = (c) => (c > 4 ? c * 2 - 9 : c * 2);
+const isCreditCardNumber = (cnn) => !([...`${cnn}`].reverse().map((v) => +v)
+  .reduce((p, c, i) => p + (i % 2 ? isCreditCardNumberEven(c) : c), 0) % 10);
 
 /**
  * Returns the digital root of integer:
@@ -268,9 +258,7 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
-}
+const getDigitalRoot = (num) => (num < 10 ? num : getDigitalRoot([...`${num}`].reduce((p, c) => p + +c, 0)));
 
 
 /**
@@ -294,9 +282,11 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
-}
+
+
+const isBracketsBalanced = (str, stk = [], brackets = {
+  '[': ']', '{': '}', '(': ')', '<': '>',
+}) => [...str].every((v) => (brackets[v] ? stk.push(v) : brackets[stk.pop()] === v)) && !stk.length;
 
 
 /**
@@ -319,9 +309,7 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
-}
+const toNaryString = (num, n) => ((num) ? toNaryString(Math.floor(num / n), n) + (num % n) : '');
 
 
 /**
@@ -336,9 +324,9 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
-}
+const getCommonDirectoryPath = (pathes) => pathes
+  .map((v) => v.split('/')).reduce((p, c) => p.filter((v, i) => c[i] === v)).concat(['']).join('/');
+// pathes.sort().filter((_, i, a) => !i || i === a.length - 1).map( ...
 
 
 /**
@@ -359,9 +347,8 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
-}
+const getMatrixProduct = (m1, m2) => m1
+  .map((m1r) => m1.map((_, i) => m1r.reduce((res, v, j) => res + v * m2[j][i], 0)));
 
 
 /**
@@ -394,9 +381,12 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
-}
+
+const same = (v, _, a) => v && v === a[0];
+const ticTacHelper = (a) => (a.map((v, i) => v[i]).every(same) ? a[0][0] : undefined)
+  || ((r) => ((r) ? r[0] : undefined))(a.find((r) => Array.from({ length: 3, ...r }).every(same)));
+const evaluateTicTacToePosition = (position) => ticTacHelper(position)
+  || ticTacHelper(position[0].map((_, col) => position.map((row) => row[col]).reverse()));
 
 
 module.exports = {
