@@ -34,7 +34,7 @@ const findElement = (arr, value) => arr.indexOf(value);
  *    5 => [ 1, 3, 5, 7, 9 ]
  */
 const generateOdds = (len) => Array(len).fill().map((_, i) => i * 2 + 1);
-
+// const generateOdds = (len) => (len ? generateOdds(len - 1).concat(len * 2 - 1) : []);
 
 /**
  * Returns the doubled array - elements of the specified array
@@ -208,8 +208,7 @@ const toArrayOfSquares = (arr) => arr.map((v) => v ** 2);
  *   [ 0, 0, 0, 0, 0]         => [ 0, 0, 0, 0, 0]
  *   [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] => [ 1, 3, 6, 10, 15, 21, 28, 36, 45, 55 ]
  */
-const getMovingSum = (arr) => arr
-  .reduce((a, v) => a.concat(a.length > 0 ? v + a.slice(-1)[0] : v), []);
+const getMovingSum = (arr) => arr.reduce((a, v) => a.concat(a.length ? v + a.at(-1) : v), []);
 
 /**
  * Returns every second item from the specified array:
@@ -271,7 +270,7 @@ const get3TopItems = (arr) => arr.sort((a, b) => b - a).slice(0, 3);
  *   [ null, 1, 'elephant' ] => 1
  *   [ 1, '2' ] => 1
  */
-const getPositivesCount = (arr) => arr.reduce((n, v) => (typeof v === 'number' && v > 0 ? n + 1 : n), 0);
+const getPositivesCount = (arr) => arr.filter((v) => typeof v === 'number' && v > 0).length;
 
 /**
  * Sorts digit names
@@ -286,10 +285,9 @@ const getPositivesCount = (arr) => arr.reduce((n, v) => (typeof v === 'number' &
  *   [ 'nine','eight','nine','eight'] => [ 'eight','eight','nine','nine']
  *   [ 'one','one','one','zero' ]     => [ 'zero','one','one','one' ]
  */
-const numberNames = {
+const sortDigitNamesByNumericOrder = (arr, numberNames = {
   zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9,
-};
-const sortDigitNamesByNumericOrder = (arr) => arr.sort((a, b) => numberNames[a] - numberNames[b]);
+}) => arr.sort((a, b) => numberNames[a] - numberNames[b]);
 
 /**
  * Returns the sum of all items in the specified array of numbers
