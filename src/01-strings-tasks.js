@@ -203,15 +203,13 @@ const getRectangleString = (width, height) => {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-const getRot13Mod = (c) => {
-  if ((c >= 65 && c <= 77) || (c >= 97 && c <= 109)) return 13;
-  if ((c >= 78 && c <= 90) || (c >= 110 && c <= 122)) return -13;
-  return 0;
+const Rot13 = (c) => {
+  if ((c >= 65 && c <= 77) || (c >= 97 && c <= 109)) return c + 13;
+  if ((c >= 78 && c <= 90) || (c >= 110 && c <= 122)) return c - 13;
+  return c;
 };
 
-const encodeToRot13 = (str) => String.fromCharCode(...[...str]
-  .map((c) => c.charCodeAt(0))
-  .map((c) => c + getRot13Mod(c)));
+const encodeToRot13 = (str) => String.fromCharCode(...[...str].map((c) => Rot13(c.charCodeAt(0))));
 
 /**
  * Returns true if the value is string; otherwise false.
