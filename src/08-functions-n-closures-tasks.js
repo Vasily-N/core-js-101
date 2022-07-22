@@ -179,14 +179,9 @@ const partialUsingArguments = (fn, ...args1) => (...args2) => fn(...args1.concat
  *   getId10() => 11
  */
 
-function ID(start) {
-  this.id = start - 1;
-}
-ID.prototype.next = function f() { this.id += 1; return this.id; };
-
 const getIdGeneratorFunction = (startFrom) => {
-  const id = new ID(startFrom);
-  return id.next.bind(id);
+  let id = startFrom - 1;
+  return () => { id += 1; return id; };
 };
 
 
