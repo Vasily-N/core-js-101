@@ -64,8 +64,7 @@ const getAverage = (value1, value2) => value1 / 2 + value2 / 2;
  *   (0,0) (1,0)    => 1
  *   (-5,0) (10,-10) => 18.027756377319946
  */
-const getDistanceBetweenPoints = (x1, y1, x2, y2) => Math
-  .sqrt(Math.abs(x2 - x1) ** 2 + Math.abs(y2 - y1) ** 2);
+const getDistanceBetweenPoints = (x1, y1, x2, y2) => Math.hypot(x2 - x1, y2 - y1);
 
 /**
  * Returns a root of linear equation a*x + b = 0 given by coefficients a and b.
