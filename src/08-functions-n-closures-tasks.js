@@ -78,10 +78,7 @@ const getPolynom = (...args) => (x) => [...args].reverse().reduce((p, c, i) => p
  *   ...
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
-const memoize = (func) => function f(...args) {
-  if (!this.result) this.result = func(args);
-  return this.result;
-};
+const memoize = (func, m = new Map()) => (x) => (m.has(0) ? m : m.set(0, func(x))).get(0);
 
 
 /**
