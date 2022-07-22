@@ -67,8 +67,8 @@ const isLeapYear = (date) => ((y) => ((y % 100) && !(y % 4)) || !(y % 400))(date
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,10,0,0,250)     => "00:00:00.250"
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
+const pad = (value, padAmount = 2) => `${value}`.padStart(Number(padAmount), '0');
 function timeSpanToString(startDate, endDate) {
-  const pad = (value, padAmount) => value.toString().padStart(Number(padAmount), '0');
   const format = '{{Hours:2}}:{{Minutes:2}}:{{Seconds:2}}.{{Milliseconds:3}}';
   const timeSpan = new Date(endDate - startDate);
   return format.match(/{{.+?:\d}}/g).reduce((result, replaceStr) => {
@@ -76,7 +76,11 @@ function timeSpanToString(startDate, endDate) {
     return result.replace(replaceStr, pad(timeSpan[`getUTC${getUTCfunc}`](), padAmount));
   }, format);
 }
-
+/* function timeSpanToString(startDate, endDate) {
+  const ts = new Date(endDate - startDate);
+  const t = [pad(ts.getUTCHours()), pad(ts.getUTCMinutes()), pad(ts.getUTCSeconds())].join(':');
+  return `${t}.${pad(ts.getUTCMilliseconds(), 3)}`;
+} */
 
 /**
  * Returns the angle (in radians) between the hands of an analog clock
