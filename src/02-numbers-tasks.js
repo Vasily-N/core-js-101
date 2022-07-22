@@ -79,7 +79,7 @@ const getDistanceBetweenPoints = (x1, y1, x2, y2) => Math
  *   x + 8 = 0       => -8
  *   5*x = 0         => 0
  */
-const getLinearEquationRoot = (a, b) => (-b) / a;
+const getLinearEquationRoot = (a, b) => -b / a;
 
 
 /**

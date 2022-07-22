@@ -309,7 +309,7 @@ const isBracketsBalanced = (str, stk = [], brackets = {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-const toNaryString = (num, n) => ((num) ? toNaryString(Math.floor(num / n), n) + (num % n) : '');
+const toNaryString = (num, n) => (num ? toNaryString(Math.floor(num / n), n) + (num % n) : '');
 
 
 /**
