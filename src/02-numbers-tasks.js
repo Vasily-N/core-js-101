@@ -183,8 +183,7 @@ const roundToPowerOfTen = (num, pow) => ((d) => Math.round(num / d) * d)(10 ** p
  *   16 => false
  *   17 => true
  */
-const isPrime = (n) => Array
-  .from({ length: Math.sqrt(n) - 1 }).map((_, i) => i + 2).every((d) => n % d);
+const isPrime = (n) => Array.from({ length: Math.sqrt(n) - 1 }).every((_, i) => n % (i + 2));
 
 /**
  * Tries to convert value to number and returns it if conversion was successful;
