@@ -384,9 +384,9 @@ const getMatrixProduct = (m1, m2) => m1
 
 const same = (v, _, a) => v && v === a[0];
 const ticTacHelper = (a) => (a.map((v, i) => v[i]).every(same) ? a[0][0] : undefined)
-  || ((r) => ((r) ? r[0] : undefined))(a.find((r) => Array.from({ length: 3, ...r }).every(same)));
+  || ((r) => (r && r[0]))(a.find((r) => Array.from({ length: 3, ...r }).every(same)));
 const evaluateTicTacToePosition = (position) => ticTacHelper(position)
-  || ticTacHelper(position[0].map((_, col) => position.map((row) => row[col]).reverse()));
+  || ticTacHelper(position.map((_, col) => position.map((row) => row[col]).reverse()));
 
 
 module.exports = {
