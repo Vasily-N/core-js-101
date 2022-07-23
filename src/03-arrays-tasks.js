@@ -374,9 +374,8 @@ const toStringList = (arr) => arr.join(',');
  *    ]
  */
 
-const sortByProperty = (a, b, property) => (a[property] > b[property] ? 1 : -1);
 const sortCitiesArray = (arr) => arr
-  .sort((a, b) => (a.country === b.country ? sortByProperty(a, b, 'city') : sortByProperty(a, b, 'country')));
+  .sort((a, b) => a.country.localeCompare(b.country) || a.city.localeCompare(b.city));
 
 /**
  * Creates an identity matrix of the specified size
