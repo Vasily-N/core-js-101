@@ -135,6 +135,7 @@ const retry = (func, attempts) => (...args) => {
 const toString = {
   Array: (arr) => `[${arr
     .map((v) => (toString[v.constructor.name] ? toString[v.constructor.name](v) : v)).join()}]`,
+  // toString[v.constructor.name]?.(v) || v)
   String: (v) => `"${v}"`,
 };
 

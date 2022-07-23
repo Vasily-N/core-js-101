@@ -224,7 +224,8 @@ const encodeToRot13 = (str) => String.fromCharCode(...[...str].map((c) => Rot13(
  *   isString('test') => true
  *   isString(new String('test')) => true
  */
-const isString = (value) => Object.prototype.toString.call(value) === '[object String]';
+// const isString = (value) => Object.prototype.toString.call(value) === '[object String]';
+const isString = (value) => !!value && typeof value.valueOf() === 'string';
 
 
 /**
