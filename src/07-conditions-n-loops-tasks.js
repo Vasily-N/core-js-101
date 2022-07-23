@@ -187,7 +187,8 @@ const findFirstSingleChar = (str) => [...str].find((v, _, a) => a.indexOf(v) ===
  *
  */
 const getIntervalString = (a, b, isStartIncluded, isEndIncluded) => [
-  isStartIncluded ? '[' : '(', [a, b].sort((x, y) => x - y).join(', '), isEndIncluded ? ']' : ')'].join('');
+  isStartIncluded ? '[' : '(', a < b ? `${a}, ${b}` : `${b}, ${a}`, isEndIncluded ? ']' : ')'].join('');
+//  [a, b].sort((x, y) => x - y).join(', ')
 
 
 /**
