@@ -199,7 +199,7 @@ const isPrime = (n) => Array.from({ length: Math.sqrt(n) - 1 }).every((_, i) => 
  *   toNumber(42, 0) => 42
  *   toNumber(new Number(42), 0) => 42
  */
-const toNumber = (value, def) => ((n) => (Number.isNaN(n) ? def : n))(Number(value));
+const toNumber = (value, def) => +value || def;
 
 module.exports = {
   getRectangleArea,
