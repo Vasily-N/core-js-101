@@ -128,7 +128,7 @@ const getLastDigit = (value) => value % 10;
  *     '37'     => 37
  * '-525.5'     => -525.5
  */
-const parseNumberFromString = (value) => Number(value);
+const parseNumberFromString = (value) => +value;
 
 /**
  * Returns a diagonal length of the rectangular parallelepiped given by its sides a,b,c.

@@ -397,7 +397,7 @@ const sortCitiesArray = (arr) => arr
  *           [0,0,0,0,1]]
  */
 const getIdentityMatrix = (n) => Array(n).fill()
-  .map((_a, i) => Array(n).fill().map((_, j) => Number(j === i)));
+  .map((_a, i) => Array(n).fill().map((_, j) => +(j === i)));
 
 /**
  * Creates an array of integers from the specified start to end (inclusive)

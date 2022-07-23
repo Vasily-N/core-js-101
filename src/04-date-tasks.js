@@ -67,7 +67,7 @@ const isLeapYear = (date) => ((y) => ((y % 100) && !(y % 4)) || !(y % 400))(date
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,10,0,0,250)     => "00:00:00.250"
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
-const pad = (value, padAmount = 2) => `${value}`.padStart(Number(padAmount), '0');
+const pad = (value, padAmount = 2) => `${value}`.padStart(+padAmount, '0');
 function timeSpanToString(startDate, endDate) {
   const format = '{{Hours:2}}:{{Minutes:2}}:{{Seconds:2}}.{{Milliseconds:3}}';
   const timeSpan = new Date(endDate - startDate);
