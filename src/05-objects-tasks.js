@@ -57,7 +57,7 @@ const fromJSON = (proto, json) => Object.setPrototypeOf(JSON.parse(json), proto)
  * Each complex selector can consists of type, id, class, attribute, pseudo-class
  * and pseudo-element selectors:
  *
- *    element#id.class[attr]:pseudoClass::pseudoElement
+ *    element#id.class[attr]:pseudoClass::pseudoEl
  *              \----/\----/\----------/
  *              Can be several occurrences
  *
@@ -106,22 +106,19 @@ const fromJSON = (proto, json) => Object.setPrototypeOf(JSON.parse(json), proto)
  */
 
 function SelectorBuilder() {
-  this[SelectorBuilder.element] = null;
-  this[SelectorBuilder.id] = null;
-  this[SelectorBuilder.classList] = [];
-  this[SelectorBuilder.attrList] = [];
-  this[SelectorBuilder.pseudoClassesList] = [];
-  this[SelectorBuilder.pseudoElement] = null;
+  Object.assign(this, {
+    [SelectorBuilder.classes]: [], [SelectorBuilder.pseudos]: [], [SelectorBuilder.attrs]: [],
+  });
 }
 
 Object.assign(SelectorBuilder, {
-  element: 'el', id: 'idVal', classList: 'classes', attrList: 'attrs', pseudoClassesList: 'psClasses', pseudoElement: 'psEl',
+  element: 'el', id: 'idVal', classes: 'classes', attrs: 'attrs', pseudos: 'psClasses', pseudoEl: 'psEl',
 });
 
 Object.assign(SelectorBuilder, {
   elementsOrder: [
-    SelectorBuilder.element, SelectorBuilder.id, SelectorBuilder.classList,
-    SelectorBuilder.attrList, SelectorBuilder.pseudoClassesList, SelectorBuilder.pseudoElement,
+    SelectorBuilder.element, SelectorBuilder.id, SelectorBuilder.classes,
+    SelectorBuilder.attrs, SelectorBuilder.pseudos, SelectorBuilder.pseudoEl,
   ],
 });
 
@@ -134,19 +131,19 @@ SelectorBuilder.prototype.id = function f(value) {
 };
 
 SelectorBuilder.prototype.class = function f(value) {
-  return this.addToList(SelectorBuilder.classList, value);
+  return this.addToList(SelectorBuilder.classes, value);
 };
 
 SelectorBuilder.prototype.attr = function f(value) {
-  return this.addToList(SelectorBuilder.attrList, value);
+  return this.addToList(SelectorBuilder.attrs, value);
 };
 
 SelectorBuilder.prototype.pseudoClass = function f(value) {
-  return this.addToList(SelectorBuilder.pseudoClassesList, value);
+  return this.addToList(SelectorBuilder.pseudos, value);
 };
 
 SelectorBuilder.prototype.pseudoElement = function f(value) {
-  return this.setProperty(SelectorBuilder.pseudoElement, value);
+  return this.setProperty(SelectorBuilder.pseudoEl, value);
 };
 
 SelectorBuilder.prototype.setProperty = function f(property, value) {
@@ -163,15 +160,14 @@ SelectorBuilder.prototype.addToList = function f(property, value) {
 };
 
 SelectorBuilder.prototype.stringify = function f() {
-  const res = [
+  return [
     this[SelectorBuilder.element] || '',
     this[SelectorBuilder.id] ? `#${this[SelectorBuilder.id]}` : '',
-    this[SelectorBuilder.classList].map((v) => `.${v}`).join(''),
-    this[SelectorBuilder.attrList].map((v) => `[${v}]`).join(''),
-    this[SelectorBuilder.pseudoClassesList].map((v) => `:${v}`).join(''),
-    this[SelectorBuilder.pseudoElement] ? `::${this[SelectorBuilder.pseudoElement]}` : '',
+    this[SelectorBuilder.classes].map((v) => `.${v}`).join(''),
+    this[SelectorBuilder.attrs].map((v) => `[${v}]`).join(''),
+    this[SelectorBuilder.pseudos].map((v) => `:${v}`).join(''),
+    this[SelectorBuilder.pseudoEl] ? `::${this[SelectorBuilder.pseudoEl]}` : '',
   ].join('');
-  return res;
 };
 
 SelectorBuilder.prototype.checkOrder = function f(property) {
