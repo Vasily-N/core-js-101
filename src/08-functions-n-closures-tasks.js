@@ -96,11 +96,16 @@ const memoize = (func, m = new Map()) => (x) => (m.has(0) ? m : m.set(0, func(x)
  * }, 2);
  * retryer() => 2
  */
+const retry = (func, attempts) => (...a) => {
+  try { return attempts ? func(a) : undefined; } catch (_) { return retry(func, attempts - 1)(a); }
+};
+/*
 const retry = (func, attempts) => (...args) => {
   for (let attempt = 0; attempt < attempts;) {
     try { return func(args); } catch (_) { attempt += 1; }
   } return undefined;
 };
+*/
 
 
 /**
