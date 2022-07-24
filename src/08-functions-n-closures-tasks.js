@@ -80,7 +80,7 @@ const getPolynom = (...args) => (x) => [...args].reverse().reduce((p, c, i) => p
  */
 // const memoize = (func, m = new Map()) => (x) => (m.has(0) ? m : m.set(0, func(x))).get(0);
 const memoize = (func, m = new Map()) => (x) => m.get(0) || m.set(0, func(x)).get(0);
-
+// won't work if return is undefined
 
 /**
  * Returns the function trying to call the passed function and if it throws,
@@ -133,15 +133,8 @@ const retry = (func, attempts) => (...args) => {
  *
  */
 
-const toString = {
-  Array: (arr) => `[${arr
-    .map((v) => (toString[v.constructor.name] ? toString[v.constructor.name](v) : v)).join()}]`,
-  // toString[v.constructor.name]?.(v) || v)
-  String: (v) => `"${v}"`,
-};
-
 const logger = (func, logFunc) => (...args) => {
-  const log = `${func.name}(${toString.Array(args).slice(1, -1)})`;
+  const log = `${func.name}(${JSON.stringify(args).slice(1, -1)})`;
   logFunc(`${log} starts`);
   const result = func(...args);
   logFunc(`${log} ends`);
