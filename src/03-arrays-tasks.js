@@ -208,7 +208,7 @@ const toArrayOfSquares = (arr) => arr.map((v) => v ** 2);
  *   [ 0, 0, 0, 0, 0]         => [ 0, 0, 0, 0, 0]
  *   [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] => [ 1, 3, 6, 10, 15, 21, 28, 36, 45, 55 ]
  */
-const getMovingSum = (arr) => arr.reduce((a, v) => a.concat(a.length ? v + a.at(-1) : v), []);
+const getMovingSum = (arr) => arr.reduce((a, v) => a.concat((a.at(-1) || 0) + v), []);
 
 /**
  * Returns every second item from the specified array:
