@@ -237,7 +237,7 @@ const getSecondItems = (arr) => arr.filter((_, i) => i % 2);
  *  [ 'a', 'b', 'c', null ] => [ 'a', 'b','b', 'c','c','c',  null,null,null,null ]
  *  [ 1,2,3,4,5 ] => [ 1, 2,2, 3,3,3, 4,4,4,4, 5,5,5,5,5 ]
  */
-const propagateItemsByPositionIndex = (arr) => arr.map((_, i, a) => Array(i + 1).fill(a[i])).flat();
+const propagateItemsByPositionIndex = (arr) => arr.flatMap((_, i, a) => Array(i + 1).fill(a[i]));
 
 
 /**
@@ -474,7 +474,7 @@ const group = (array, keySelector, valueSelector) => array.map(keySelector).redu
  *   [[1, 2], [3, 4], [5, 6]], (x) => x     =>   [ 1, 2, 3, 4, 5, 6 ]
  *   ['one','two','three'], x=>x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
-const selectMany = (arr, childrenSelector) => arr.map(childrenSelector).flat();
+const selectMany = (arr, childrenSelector) => arr.flatMap(childrenSelector);
 
 
 /**
