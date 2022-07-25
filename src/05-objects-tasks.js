@@ -173,7 +173,7 @@ SelectorBuilder.prototype.stringify = function f() {
 SelectorBuilder.prototype.checkOrder = function f(property) {
   const idx = SelectorBuilder.elementsOrder.indexOf(property);
   const checkArr = SelectorBuilder.elementsOrder.slice(idx + 1);
-  if (checkArr.some((p) => (Array.isArray(this[p]) ? this[p].length : this[p]))) {
+  if (!checkArr.every((p) => !(this[p] && this[p].length))) {
     SelectorBuilder.wrongOrder();
   }
 };
