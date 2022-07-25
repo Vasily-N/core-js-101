@@ -34,7 +34,6 @@ const findElement = (arr, value) => arr.indexOf(value);
  *    5 => [ 1, 3, 5, 7, 9 ]
  */
 const generateOdds = (len) => Array(len).fill().map((_, i) => i * 2 + 1);
-// const generateOdds = (len) => (len ? generateOdds(len - 1).concat(len * 2 - 1) : []);
 
 /**
  * Returns the doubled array - elements of the specified array
