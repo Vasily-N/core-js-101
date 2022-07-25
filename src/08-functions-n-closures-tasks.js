@@ -61,7 +61,7 @@ const getPowerFunction = (exponent) => (v) => v ** exponent;
 // (...args) => (x) => args.map((_, i, a) => a.at(-i - 1) * x ** i).reduce((p, c) => p + c);
 // (...args) => (x) => args.reduce((p, c, i, a) => p + c * x ** (a.length - i - 1), 0);
 // (...args) => (x) => args.reduce((p, _, i, a) => p + a.at(-i - 1) * x ** i, 0);
-const getPolynom = (...args) => (x) => [...args].reverse().reduce((p, c, i) => p + c * x ** i, 0);
+const getPolynom = (...args) => (x) => [...args].reverse().reduce((p, c, i) => p + c * x ** i);
 
 
 /**
